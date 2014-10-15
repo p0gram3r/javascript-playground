@@ -79,11 +79,23 @@
         }
     }
 
-    log(add(11, 11));
-    var doubl = twice(add);
-    log(doubl(11));
-    var square = twice(mul);
-    log(square(11));
+    //    test
+    //    log(add(11, 11));
+    //    var doubl = twice(add);
+    //    log(doubl(11));
+    //    var square = twice(mul);
+    //    log(square(11));
+
+    function reverse(binary) {
+        return function (x, y) {
+            return binary(y, x);
+        }
+    }
+
+    // test
+    var bus = reverse(sub);
+    log(bus(3, 2));
+
 
 </script></pre>
 </body>

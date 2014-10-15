@@ -377,6 +377,21 @@ function revocable(unary) {
 //log(invoke(7));  // undefined
 
 
+// write a function that takes a value and an optional source string an returns them in an object
+function m(value, source) {
+    if (source === undefined) {
+        source = String(value);
+    }
+
+    return {
+        "value": value,
+        "source": source
+    }
+}
+
+log(JSON.stringify(m(1)));  // {"value": 1, "source": "1"}
+log(JSON.stringify(m(Math.PI, "pi")));  // {"value": 1, "source": "1"}
+
 </script></pre>
 </body>
 </html>

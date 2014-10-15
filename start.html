@@ -317,14 +317,41 @@ function fibonaccif(x, y) {
     }
 }
 
-var fib = fibonaccif(0, 1);
-log(fib()); // 0
-log(fib()); // 1
-log(fib()); // 1
-log(fib()); // 2
-log(fib()); // 3
-log(fib()); // 5
-log(fib()); // 8
+//var fib = fibonaccif(0, 1);
+//log(fib()); // 0
+//log(fib()); // 1
+//log(fib()); // 1
+//log(fib()); // 2
+//log(fib()); // 3
+//log(fib()); // 5
+//log(fib()); // 8
+
+
+// write a counter function that returns an object containing two functions
+// that implement an up/down counter, hiding the counter
+
+function counter(seed) {
+    var value = seed;
+    return {
+        "next": function () {
+            value += 1;
+            return value;
+        },
+        "prev": function () {
+            value -= 1;
+            return value;
+        }
+    }
+}
+
+var object = counter(10),
+        next = object.next,
+        prev = object.prev;
+log(next()); // 11
+log(prev()); // 10
+log(prev()); // 9
+log(next()); // 10
+
 
 </script></pre>
 </body>

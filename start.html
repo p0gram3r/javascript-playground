@@ -23,13 +23,22 @@
 
 
     function identityf(x) {
-        return function() {
+        return function () {
             return x;
         };
     }
 
-    var three = identityf(3);
-    log(three());
+    function addf(x) {
+        return function (y) {
+            return x + y;
+        }
+    }
+
+    //    var three = identityf(3);
+    //    log(three());
+
+    log(addf(3)(4));
+
 </script></pre>
 </body>
 </html>

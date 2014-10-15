@@ -21,6 +21,13 @@
         return x * y;
     }
 
+
+    function identityf(x) {
+        return function () {
+            return x;
+        };
+    }
+
     log(identity(3));
     log(add(3, 4));
     log(sub(3, 4));

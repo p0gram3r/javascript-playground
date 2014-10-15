@@ -230,13 +230,35 @@ function filter(generator, predicate) {
     }
 }
 
-var fil = filter(fromTo(0, 5),
-        function third(value) {
-            return (value % 3) === 0
-        });
-log(fil()); // 0
-log(fil()); // 3
-log(fil()); // undefined
+// tests
+//var fil = filter(fromTo(0, 5),
+//        function third(value) {
+//            return (value % 3) === 0
+//        });
+//log(fil()); // 0
+//log(fil()); // 3
+//log(fil()); // undefined
+
+
+// write a concat function that takes two generators and produces a generator that combines the sequences
+function concat(gen1, gen2) {
+    return function () {
+        var val = gen1();
+        if (val === undefined) {
+            val = gen2();
+        }
+        return val;
+    };
+}
+
+// tests
+var con = concat(fromTo(0, 3), fromTo(0, 2));
+log(con());  // 0
+log(con());  // 1
+log(con());  // 2
+log(con());  // 0
+log(con());  // 1
+log(con());  // undefined
 
 </script></pre>
 </body>

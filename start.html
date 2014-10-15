@@ -67,7 +67,7 @@ function curry(binary, first) {
 
 
 // Without writing any new functions, show three ways to create the inc function
-    var inc = addf(1);
+var inc = addf(1);
 //    var inc = curry(add, 1);
 //var inc = liftf(add)(1);
 //    log(inc(5));
@@ -290,13 +290,41 @@ function gensymff(unary, seed) {
     }
 }
 
-var gensymf = gensymff(inc, 0),
-        geng = gensymf("G"),
-        genh = gensymf("H");
-log(geng()); //G1
-log(genh()); //H1
-log(geng()); //G2
-log(genh()); //H2
+//var gensymf = gensymff(inc, 0),
+//        geng = gensymf("G"),
+//        genh = gensymf("H");
+//log(geng()); //G1
+//log(genh()); //H1
+//log(geng()); //G2
+//log(genh()); //H2
+
+
+// write a function fibonaccif taht returns a generator that will return the next fibonacci number
+function fibonaccif(x, y) {
+    var index = 0, a = x, b = y;
+    return function () {
+        var sum;
+        if (index < 2) {
+            sum = a
+        }
+        else {
+            sum = a + b;
+        }
+        index += 1;
+        a = b;
+        b = sum;
+        return sum;
+    }
+}
+
+var fib = fibonaccif(0, 1);
+log(fib()); // 0
+log(fib()); // 1
+log(fib()); // 1
+log(fib()); // 2
+log(fib()); // 3
+log(fib()); // 5
+log(fib()); // 8
 
 </script></pre>
 </body>

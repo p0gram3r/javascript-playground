@@ -142,13 +142,10 @@
 
     //Write a fromTo function that produces a generator that will produce values in a range
     function fromTo(start, length) {
-        var x = start;
-        var called = 0;
         return function () {
-            if (called < length) {
-                var val = x;
-                x += 1;
-                called += 1;
+            var val = start;
+            if (start < length) {
+                start += 1;
                 return val;
             }
             return undefined;

@@ -28,15 +28,17 @@
         };
     }
 
+    // test
     //    var three = identityf(3);
     //    log(three());
 
-    //    function addf(x) {
-    //        return function (y) {
-    //            return x + y;
-    //        }
-    //    }
+    function addf(x) {
+        return function (y) {
+            return x + y;
+        }
+    }
 
+    // test
     //    log(addf(3)(4));
 
     function liftf(f) {
@@ -47,6 +49,7 @@
         }
     }
 
+    // test
     //    var addf = liftf(add);
     //    log(addf(3)(4));
     //    log(liftf(mul)(5)(6));
@@ -57,9 +60,18 @@
         }
     }
 
-    var add3 = curry(add, 3);
-    log(add3(4));
-    log(curry(mul, 5)(6));
+    // test
+    //    var add3 = curry(add, 3);
+    //    log(add3(4));
+    //    log(curry(mul, 5)(6));
+
+
+    // Without writing any new functions, show three ways to create the inc function
+    //    var inc = addf(1);
+    //    var inc = curry(add, 1);
+    var inc = liftf(add)(1);
+    log(inc(5));
+    log(inc(inc(5)));
 
 </script></pre>
 </body>

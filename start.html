@@ -106,6 +106,7 @@
     //    log(composeu(doubl, square)(5));  // 100
 
 
+    // write a function that takes two binary functions and returns a function that calls them both
     function composeb(binary1, binary2) {
         return function (x, y, z) {
             return binary2(binary1(x, y), z);

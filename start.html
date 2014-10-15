@@ -355,7 +355,6 @@ function counter(seed) {
 
 
 // ???
-
 function revocable(unary) {
     return {
         "invoke": function (x) {
@@ -370,12 +369,12 @@ function revocable(unary) {
     };
 }
 
-var rev = revocable(identity),
-        invoke = rev.invoke;
-
-log(invoke(7));  // 7
-rev.revoke();
-log(invoke(7));  // undefined
+// tests
+//var rev = revocable(identity),
+//        invoke = rev.invoke;
+//log(invoke(7));  // 7
+//rev.revoke();
+//log(invoke(7));  // undefined
 
 
 </script></pre>

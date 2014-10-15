@@ -86,6 +86,7 @@
     var square = twice(mul);
     //        log(square(11));
 
+
     function reverse(binary) {
         return function (x, y) {
             return binary(y, x);
@@ -95,6 +96,7 @@
     // test
     //    var bus = reverse(sub);
     //    log(bus(3, 2));
+
 
     function composeu(unary1, unary2) {
         return function (x) {
@@ -114,8 +116,28 @@
     }
 
     // test
-    // 35
-    log(composeb(add, mul)(2, 3, 7));
+    //    log(composeb(add, mul)(2, 3, 7));  // 35
+
+
+    // write a function that allows a binary function to be called only once
+    function once(binary) {
+        var count = 0;
+        return function (x, y) {
+            count += 1;
+
+            if (count === 1) {
+                return binary(x, y);
+            }
+            else {
+                return undefined;
+            }
+        }
+    }
+
+    // test
+    var add_once = once(add);
+    log(add_once(3, 4)); // 7
+    log(add_once(3, 5)); // undefined
 
 </script></pre>
 </body>

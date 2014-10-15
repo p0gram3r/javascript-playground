@@ -1,200 +1,219 @@
 <html>
 <body>
 <pre><script>
-    function log(arg) {
-        document.writeln(arg);
-    }
+function log(arg) {
+    document.writeln(arg);
+}
 
-    function identity(x) {
+function identity(x) {
+    return x;
+}
+
+function add(x, y) {
+    return x + y;
+}
+
+function sub(x, y) {
+    return x - y;
+}
+
+function mul(x, y) {
+    return x * y;
+}
+
+
+function identityf(x) {
+    return function () {
         return x;
-    }
+    };
+}
 
-    function add(x, y) {
+// test
+//    var three = identityf(3);
+//    log(three());
+
+function addf(x) {
+    return function (y) {
         return x + y;
     }
+}
 
-    function sub(x, y) {
-        return x - y;
-    }
+// test
+//    log(addf(3)(4));
 
-    function mul(x, y) {
-        return x * y;
-    }
-
-
-    function identityf(x) {
-        return function () {
-            return x;
-        };
-    }
-
-    // test
-    //    var three = identityf(3);
-    //    log(three());
-
-    function addf(x) {
+function liftf(f) {
+    return function (x) {
         return function (y) {
-            return x + y;
+            return f(x, y);
         }
     }
+}
 
-    // test
-    //    log(addf(3)(4));
+// test
+//    var addf = liftf(add);
+//    log(addf(3)(4));
+//    log(liftf(mul)(5)(6));
 
-    function liftf(f) {
-        return function (x) {
-            return function (y) {
-                return f(x, y);
-            }
-        }
+function curry(binary, first) {
+    return function (second) {
+        return binary(first, second);
     }
+}
 
-    // test
-    //    var addf = liftf(add);
-    //    log(addf(3)(4));
-    //    log(liftf(mul)(5)(6));
+// test
+//    var add3 = curry(add, 3);
+//    log(add3(4));
+//    log(curry(mul, 5)(6));
 
-    function curry(binary, first) {
-        return function (second) {
-            return binary(first, second);
-        }
+
+// Without writing any new functions, show three ways to create the inc function
+//    var inc = addf(1);
+//    var inc = curry(add, 1);
+var inc = liftf(add)(1);
+//    log(inc(5));
+//    log(inc(inc(5)));
+
+function twice(binary) {
+    return function (x) {
+        return binary(x, x);
     }
+}
 
-    // test
-    //    var add3 = curry(add, 3);
-    //    log(add3(4));
-    //    log(curry(mul, 5)(6));
+//    test
+// log(add(11, 11));
+var doubl = twice(add);
+//        log(doubl(11));
+var square = twice(mul);
+//        log(square(11));
 
 
-    // Without writing any new functions, show three ways to create the inc function
-    //    var inc = addf(1);
-    //    var inc = curry(add, 1);
-    var inc = liftf(add)(1);
-    //    log(inc(5));
-    //    log(inc(inc(5)));
-
-    function twice(binary) {
-        return function (x) {
-            return binary(x, x);
-        }
+function reverse(binary) {
+    return function (x, y) {
+        return binary(y, x);
     }
+}
 
-    //    test
-    // log(add(11, 11));
-    var doubl = twice(add);
-    //        log(doubl(11));
-    var square = twice(mul);
-    //        log(square(11));
+// test
+//    var bus = reverse(sub);
+//    log(bus(3, 2));
 
 
-    function reverse(binary) {
-        return function (x, y) {
-            return binary(y, x);
-        }
+function composeu(unary1, unary2) {
+    return function (x) {
+        return unary2(unary1(x));
     }
+}
 
-    // test
-    //    var bus = reverse(sub);
-    //    log(bus(3, 2));
+// test
+//    log(composeu(doubl, square)(5));  // 100
 
 
-    function composeu(unary1, unary2) {
-        return function (x) {
-            return unary2(unary1(x));
-        }
+// write a function that takes two binary functions and returns a function that calls them both
+function composeb(binary1, binary2) {
+    return function (x, y, z) {
+        return binary2(binary1(x, y), z);
     }
+}
 
-    // test
-    //    log(composeu(doubl, square)(5));  // 100
+// test
+//    log(composeb(add, mul)(2, 3, 7));  // 35
 
 
-    // write a function that takes two binary functions and returns a function that calls them both
-    function composeb(binary1, binary2) {
-        return function (x, y, z) {
-            return binary2(binary1(x, y), z);
+// write a function that allows a binary function to be called only once
+function once(binary) {
+    var count = 0;
+    return function (x, y) {
+        count += 1;
+
+        if (count === 1) {
+            return binary(x, y);
         }
-    }
-
-    // test
-    //    log(composeb(add, mul)(2, 3, 7));  // 35
-
-
-    // write a function that allows a binary function to be called only once
-    function once(binary) {
-        var count = 0;
-        return function (x, y) {
-            count += 1;
-
-            if (count === 1) {
-                return binary(x, y);
-            }
-            else {
-                return undefined;
-            }
-        }
-    }
-
-    // test
-    //    var add_once = once(add);
-    //    log(add_once(3, 4)); // 7
-    //    log(add_once(3, 5)); // undefined
-
-
-    //Write a fromTo function that produces a generator that will produce values in a range
-    function fromTo(start, length) {
-        return function () {
-            var val = start;
-            if (start < length) {
-                start += 1;
-                return val;
-            }
+        else {
             return undefined;
         }
     }
+}
 
-    // test
-    //    var index = fromTo(0, 3);
-    //    log(index()); // 0
-    //    log(index()); // 1
-    //    log(index()); // 2
-    //    log(index()); // undefined
+// test
+//    var add_once = once(add);
+//    log(add_once(3, 4)); // 7
+//    log(add_once(3, 5)); // undefined
 
 
-    // write an element function that takes an aray and a generator
-    // and returns a generator that will produce elements from the array
-    function element(array, gen) {
-        if (gen === undefined) {
-            gen = fromTo(0, array.length);
+//Write a fromTo function that produces a generator that will produce values in a range
+function fromTo(start, length) {
+    return function () {
+        var val = start;
+        if (start < length) {
+            start += 1;
+            return val;
         }
-        return function () {
-            var index = gen();
-            if (index === undefined) {
-                return undefined;
-            }
-            return array[index];
-
-            // different solution
-            // return array[generator()];
-        }
+        return undefined;
     }
+}
 
-    // test
-    //    var ele = element(['a', 'b', 'c', 'd'], fromTo(1, 3));
-    //    log(ele()); // b
-    //    log(ele()); // c
-    //    log(ele()); // undefined
+// test
+//    var index = fromTo(0, 3);
+//    log(index()); // 0
+//    log(index()); // 1
+//    log(index()); // 2
+//    log(index()); // undefined
 
 
-    // modify the element function so that the generators argument is optional- if a generator is not provided than
-    // each of the elements of the array will be produced
+// write an element function that takes an aray and a generator
+// and returns a generator that will produce elements from the array
+function element(array, gen) {
+    if (gen === undefined) {
+        gen = fromTo(0, array.length);
+    }
+    return function () {
+        var index = gen();
+        if (index === undefined) {
+            return undefined;
+        }
+        return array[index];
 
-    var ele = element(['a', 'b', 'c', 'd']);
-    log(ele()); // a
-    log(ele()); // b
-    log(ele()); // c
-    log(ele()); // d
-    log(ele()); // undefined
+        // different solution
+        // return array[generator()];
+    }
+}
 
+// test
+//    var ele = element(['a', 'b', 'c', 'd'], fromTo(1, 3));
+//    log(ele()); // b
+//    log(ele()); // c
+//    log(ele()); // undefined
+
+
+// modify the element function so that the generators argument is optional- if a generator is not provided than
+// each of the elements of the array will be produced
+
+//var ele = element(['a', 'b', 'c', 'd']);
+//log(ele()); // a
+//log(ele()); // b
+//log(ele()); // c
+//log(ele()); // d
+//log(ele()); // undefined
+
+// Write a function that takes a generator and an array and produces a function that will collect the results in the array
+
+function collect(generator, array) {
+    return function () {
+        var val = generator();
+        if (val !== undefined) {
+            array.push(val);
+        }
+        return val;
+    };
+}
+
+// test
+var array = [];
+var col = collect(fromTo(5, 7), array);
+log(col()); // 5
+log(col()); // 6
+log(col()); // undefined
+log(array); // [5,6]
 
 </script></pre>
 </body>

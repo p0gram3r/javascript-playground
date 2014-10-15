@@ -252,13 +252,30 @@ function concat(gen1, gen2) {
 }
 
 // tests
-var con = concat(fromTo(0, 3), fromTo(0, 2));
-log(con());  // 0
-log(con());  // 1
-log(con());  // 2
-log(con());  // 0
-log(con());  // 1
-log(con());  // undefined
+//var con = concat(fromTo(0, 3), fromTo(0, 2));
+//log(con());  // 0
+//log(con());  // 1
+//log(con());  // 2
+//log(con());  // 0
+//log(con());  // 1
+//log(con());  // undefined
+
+
+// make a function that makes a function that generates unique symbols
+function gensymf(prefix) {
+    var counter = 0;
+    return function () {
+        counter += 1;
+        return (String(prefix) + counter);
+    };
+}
+
+var geng = gensymf("G"),
+        genh = gensymf("H");
+log(geng()); //G1
+log(genh()); //H1
+log(geng()); //G2
+log(genh()); //H2
 
 </script></pre>
 </body>

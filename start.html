@@ -344,13 +344,38 @@ function counter(seed) {
     }
 }
 
-var object = counter(10),
-        next = object.next,
-        prev = object.prev;
-log(next()); // 11
-log(prev()); // 10
-log(prev()); // 9
-log(next()); // 10
+// tests
+//var object = counter(10),
+//        next = object.next,
+//        prev = object.prev;
+//log(next()); // 11
+//log(prev()); // 10
+//log(prev()); // 9
+//log(next()); // 10
+
+
+// ???
+
+function revocable(unary) {
+    return {
+        "invoke": function (x) {
+            if (unary !== undefined) {
+                return unary(x);
+            }
+            return undefined;
+        },
+        "revoke": function () {
+            unary = undefined;
+        }
+    };
+}
+
+var rev = revocable(identity),
+        invoke = rev.invoke;
+
+log(invoke(7));  // 7
+rev.revoke();
+log(invoke(7));  // undefined
 
 
 </script></pre>

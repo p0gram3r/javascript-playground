@@ -69,9 +69,21 @@
     // Without writing any new functions, show three ways to create the inc function
     //    var inc = addf(1);
     //    var inc = curry(add, 1);
-    var inc = liftf(add)(1);
-    log(inc(5));
-    log(inc(inc(5)));
+    //    var inc = liftf(add)(1);
+    //    log(inc(5));
+    //    log(inc(inc(5)));
+
+    function twice(binary) {
+        return function (x) {
+            return binary(x, x);
+        }
+    }
+
+    log(add(11, 11));
+    var doubl = twice(add);
+    log(doubl(11));
+    var square = twice(mul);
+    log(square(11));
 
 </script></pre>
 </body>

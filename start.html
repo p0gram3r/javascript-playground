@@ -67,9 +67,9 @@ function curry(binary, first) {
 
 
 // Without writing any new functions, show three ways to create the inc function
-//    var inc = addf(1);
+    var inc = addf(1);
 //    var inc = curry(add, 1);
-var inc = liftf(add)(1);
+//var inc = liftf(add)(1);
 //    log(inc(5));
 //    log(inc(inc(5)));
 
@@ -262,15 +262,36 @@ function concat(gen1, gen2) {
 
 
 // make a function that makes a function that generates unique symbols
-function gensymf(prefix) {
-    var counter = 0;
-    return function () {
-        counter += 1;
-        return (String(prefix) + counter);
-    };
+//function gensymf(prefix) {
+//    var counter = 0;
+//    return function () {
+//        counter += 1;
+//        return (String(prefix) + counter);
+//    };
+//}
+
+// tests
+//var geng = gensymf("G"),
+//        genh = gensymf("H");
+//log(geng()); //G1
+//log(genh()); //H1
+//log(geng()); //G2
+//log(genh()); //H2
+
+
+// write a function gensymff that takes a unary function and a seed and returns a gensymf
+function gensymff(unary, seed) {
+    return function (prefix) {
+        var counter = seed;
+        return function () {
+            counter = unary(counter);
+            return (String(prefix) + counter);
+        };
+    }
 }
 
-var geng = gensymf("G"),
+var gensymf = gensymff(inc, 0),
+        geng = gensymf("G"),
         genh = gensymf("H");
 log(geng()); //G1
 log(genh()); //H1

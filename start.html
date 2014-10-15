@@ -96,14 +96,25 @@
     //    var bus = reverse(sub);
     //    log(bus(3, 2));
 
-    function composeu(binary1, binary2) {
+    function composeu(unary1, unary2) {
         return function (x) {
-            return binary2(binary1(x));
+            return unary2(unary1(x));
         }
     }
 
     // test
-    log(composeu(doubl, square)(5));  // 100
+    //    log(composeu(doubl, square)(5));  // 100
+
+
+    function composeb(binary1, binary2) {
+        return function (x, y, z) {
+            return binary2(binary1(x, y), z);
+        }
+    }
+
+    // test
+    // 35
+    log(composeb(add, mul)(2, 3, 7));
 
 </script></pre>
 </body>

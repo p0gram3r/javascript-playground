@@ -400,8 +400,20 @@ function addm(m1, m2) {
 }
 
 // tests
+//log(JSON.stringify(addm(m(3), m(4))));  // {"value": 7, "source": "(3+4)"}
+//log(JSON.stringify(addm(m(1), m(Math.PI, "pi"))));  // {"value": 4,1415, "source": "(1+pi)"}
+
+
+// wirte a function taht takes a binary funtion and a string and returns a function that acts on m objects
+function liftm(binary, s) {
+    return function (m1, m2) {
+        return m(binary(m1.value, m2.value), "(" + m1.source + s + m2.source + ")");
+    }
+}
+
+var addm = liftm(add, "+");
 log(JSON.stringify(addm(m(3), m(4))));  // {"value": 7, "source": "(3+4)"}
-log(JSON.stringify(addm(m(1), m(Math.PI, "pi"))));  // {"value": 4,1415, "source": "(1+pi)"}
+log(JSON.stringify(liftm(mul, "*")(m(3), m(4))));  // {"value": 12, "source": "(3*4)"}
 
 
 </script></pre>

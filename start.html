@@ -208,12 +208,35 @@ function collect(generator, array) {
 }
 
 // test
-var array = [];
-var col = collect(fromTo(5, 7), array);
-log(col()); // 5
-log(col()); // 6
-log(col()); // undefined
-log(array); // [5,6]
+//var array = [];
+//var col = collect(fromTo(5, 7), array);
+//log(col()); // 5
+//log(col()); // 6
+//log(col()); // undefined
+//log(array); // [5,6]
+
+
+// write a filter function that takes a generator and a predicate and produces a
+// generator that produces only the values approved by the predicate
+function filter(generator, predicate) {
+    return function () {
+        var val;
+        do {
+            val = generator();
+        }
+        while (val != undefined && !predicate(val))
+
+        return val;
+    }
+}
+
+var fil = filter(fromTo(0, 5),
+        function third(value) {
+            return (value % 3) === 0
+        });
+log(fil()); // 0
+log(fil()); // 3
+log(fil()); // undefined
 
 </script></pre>
 </body>

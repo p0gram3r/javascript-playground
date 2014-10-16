@@ -467,7 +467,6 @@ function addg(first) {
 // liftg
 
 function liftg(binary) {
-
     return function (first) {
         if (first === undefined) {
             return first;
@@ -483,10 +482,33 @@ function liftg(binary) {
     }
 }
 
-log(liftg(mul)()); // undefined
-log(liftg(mul)(3)()); // 3
-log(liftg(mul)(3)(0)(4)()); // 0
-log(liftg(mul)(1)(2)(4)(8)()); // 0
+//log(liftg(mul)()); // undefined
+//log(liftg(mul)(3)()); // 3
+//log(liftg(mul)(3)(0)(4)()); // 0
+//log(liftg(mul)(1)(2)(4)(8)()); // 0
+
+
+function arrayg(first) {
+    var array = [];
+
+    if (first===undefined) {
+        return array;
+    }
+    array.push(first);
+
+    return function buildArray(x) {
+        if (x === undefined) {
+            return array;
+        }
+        array.push(x);
+        return buildArray;
+    }
+}
+
+// tests
+log(arrayg()); // []
+log(arrayg(3)()); // [3]
+log(arrayg(3)(4)(5)()); // [3,4,5]
 
 </script></pre>
 </body>

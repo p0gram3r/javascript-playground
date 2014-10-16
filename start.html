@@ -184,7 +184,6 @@ function element(array, gen) {
 //    log(ele()); // c
 //    log(ele()); // undefined
 
-
 // modify the element function so that the generators argument is optional- if a generator is not provided than
 // each of the elements of the array will be produced
 
@@ -203,6 +202,7 @@ function collect(generator, array) {
         if (val !== undefined) {
             array.push(val);
         }
+
         return val;
     };
 }
@@ -420,14 +420,49 @@ function liftm(binary, s) {
 
 // tests
 var addm = liftm(add, "+");
-log(JSON.stringify(addm(m(3), m(4))));  // {"value": 7, "source": "(3+4)"}
-log(JSON.stringify(liftm(mul, "*")(m(3), m(4))));  // {"value": 12, "source": "(3*4)"}
+//log(JSON.stringify(addm(m(3), m(4))));  // {"value": 7, "source": "(3+4)"}
+//log(JSON.stringify(liftm(mul, "*")(m(3), m(4))));  // {"value": 12, "source": "(3*4)"}
+
 
 // modify liftm so that the functions it produces can accept arguments that either numbers or m objects
 
 // tests
-log(JSON.stringify(addm(3, 4)));  // {"value": 7, "source": "(3+4)"}
-log(JSON.stringify(addm(3, m(4))));  // {"value": 7, "source": "(3+4)"}
+//log(JSON.stringify(addm(3, 4)));  // {"value": 7, "source": "(3+4)"}
+//log(JSON.stringify(addm(3, m(4))));  // {"value": 7, "source": "(3+4)"}
+
+
+// write a function addg that adds from many invocations, until it sees an empty invocation
+var sum = 0
+
+function addg(first) {
+    function more(next) {
+        if (next === undefined) {
+            return first;
+        }
+        first += next;
+        return more;
+    }
+
+    if (first !== undefined) {
+        return more;
+    }
+}
+
+
+// tests
+log(addg()); // undefined
+log(" ");
+log(" ");
+log(addg(2)()); // 2
+log(" ");
+log(" ");
+log(addg(2)(7)()); // 9
+log(" ");
+log(" ");
+log(addg(3)(0)(4)()); // 7
+log(" ");
+log(" ");
+log(addg(1)(2)(4)(8)()); // 15
 
 </script></pre>
 </body>

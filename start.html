@@ -491,24 +491,21 @@ function liftg(binary) {
 function arrayg(first) {
     var array = [];
 
-    if (first === undefined) {
-        return array;
-    }
-    array.push(first);
-
-    return function buildArray(x) {
+    function buildArray(x) {
         if (x === undefined) {
             return array;
         }
         array.push(x);
         return buildArray;
     }
+
+    return buildArray(first);
 }
 
 // tests
-//log(arrayg()); // []
-//log(arrayg(3)()); // [3]
-//log(arrayg(3)(4)(5)()); // [3,4,5]
+log(arrayg()); // []
+log(arrayg(3)()); // [3]
+log(arrayg(3)(4)(5)()); // [3,4,5]
 
 
 function continuize(unary) {

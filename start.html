@@ -469,26 +469,24 @@ function addg(first) {
 function liftg(binary) {
 
     return function (first) {
+        if (first === undefined) {
+            return first;
+        }
 
-        function innerF(val) {
+        return function innerF(val) {
             if (val === undefined) {
                 return first;
             }
             first = binary(first, val);
             return innerF;
         }
-
-        if (first !== undefined) {
-            return innerF;
-        }
-
     }
 }
 
-log(liftg(mul)() ); // undefined
-log(liftg(mul)(3)() ); // 3
-log(liftg(mul)(3)(0)(4)() ); // 0
-log(liftg(mul)(1)(2)(4)(8)() ); // 0
+log(liftg(mul)()); // undefined
+log(liftg(mul)(3)()); // 3
+log(liftg(mul)(3)(0)(4)()); // 0
+log(liftg(mul)(1)(2)(4)(8)()); // 0
 
 </script></pre>
 </body>
